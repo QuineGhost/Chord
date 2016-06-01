@@ -4,11 +4,12 @@ $(document).ready(function() {
         $("#volume").after($("<select>").append("<option>" + chord.textContent));
     }
 
+    var freeverb = new Tone.Freeverb(0.9).toMaster();
     //create tone object
-    var synth = new Tone.PolySynth(5, Tone.MonoSynth).toMaster();
+    var synth = new Tone.PolySynth(5, Tone.MonoSynth).connect(freeverb);
     synth.volume.value = -20;
 
-    //volume-panel bkg create
+    //volume-panel background create
     var opacityValue = 0.1;
     for(var i = 0; i < 9; i++) {
         $("#volume-" + i).css("background-color", "#008080");
@@ -59,7 +60,7 @@ $(document).ready(function() {
                 break;
         }
 
-        //ボリュームブロック背景色変更
+        //volume-panel background changes
         var nextId = thisId + 1;
         var preId = thisId - 1;
         var nexeOpacity = $("#volume-" + nextId.toString()).css("opacity");
@@ -67,10 +68,12 @@ $(document).ready(function() {
         var rightElementOpacity = $("#volume-" + nextId.toString()).css("opacity");
         var leftElementOpacity = $("#volume-" + preId.toString()).css("opacity");
 
+        //volume down
         if($(this).css("opacity") != "0" ) {
-            for(var i = thisId; i < $volumeList.length; i++) {
+            for(var i = thisId+1; i < $volumeList.length; i++) {
                 $("#volume-" + i.toString()).css("opacity", "0.0");
             }
+            //volume up
         } else if($(this).css("opacity")){
             for(var i = 0; i < thisId + 1; i++) {
                 if(thisId != 9) {
@@ -108,20 +111,24 @@ $(document).ready(function() {
         try {
             switch(keyState) {
               case 37:
-                synth.triggerAttackRelease(
-                Chord.makeMajorSeventh("C", 4, ['9', '11', '13']), '24n');
+              console.log($("#left-chord").text().substr(0, 1));
+                synth.triggerAttackRelease(Chord.makeMajorSeventh(
+                        $("#left-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
               case 38:
-                var fMajorSeventh = ['F3', 'A3', 'C4', 'E4', 'G4'];
-                synth.triggerAttackRelease(fMajorSeventh, '24n');
+              console.log($("#top-chord").text().substr(0, 1));
+                synth.triggerAttackRelease(Chord.makeMajorSeventh(
+                      $("#top-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
               case 39:
-                var gMajorSeventh = ['Bb3', 'C4', 'D4', 'F4', 'A4'];
-                synth.triggerAttackRelease(gMajorSeventh, '24n');
+              console.log($("#right-chord").text().substr(0, 1));
+                synth.triggerAttackRelease(Chord.makeMajorSeventh(
+                      $("#right-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
               case 40:
-                var D = ['D2'];
-                synth.triggerAttackRelease(D, '24n');
+              console.log($("#bottom-chord").text().substr(0, 1));
+                synth.triggerAttackRelease(Chord.makeMajorSeventh(
+                      $("#bottom-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
             }
         } catch(e) {

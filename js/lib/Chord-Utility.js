@@ -4,50 +4,50 @@ var Chord = {
   "F#": 7, "G": 8, "G#": 9,"A": 10, "A#": 11, "B": 12},
   //コードの種類ごとに一般化されているイメージ
   //Major7th系のコードを返すメソッド
-  makeMajorSeventh: function(root, range, extendetList) {
+  makeMajorSeventh: function(root, octave, extendedList) {
     switch(root) {
       case 'C':
-      if(extendetList.indexOf('9') >= 0 &&
-        extendetList.indexOf('11') === -1 &&
-        extendetList.indexOf('13') === -1) {
+      if(extendedList.indexOf('9') >= 0 &&
+        extendedList.indexOf('11') === -1 &&
+        extendedList.indexOf('13') === -1) {
           //9th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range, 'D' + (range+1)];
-      } else if(extendetList.indexOf('9') === -1 &&
-        extendetList.indexOf('11') >= 0 &&
-        extendetList.indexOf('13') === -1) {
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave, 'D' + (octave+1)];
+    } else if(extendedList.indexOf('9') === -1 &&
+        extendedList.indexOf('11') >= 0 &&
+        extendedList.indexOf('13') === -1) {
           //#11th
-          return ['C' + range , 'E' + range, 'G' + range, 'B' + range, 'F#' + (range+1)];
-      } else if(extendetList.indexOf('9') === -1 &&
-        extendetList.indexOf('11') === -1 &&
-        extendetList.indexOf('13') >= 0) {
+          return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave, 'F#' + (octave+1)];
+      } else if(extendedList.indexOf('9') === -1 &&
+        extendedList.indexOf('11') === -1 &&
+        extendedList.indexOf('13') >= 0) {
         //13th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range, 'A' + range];
-      } else if(extendetList.indexOf('9') >= 0 &&
-        extendetList.indexOf('11') >= 0 &&
-        extendetList.indexOf('13') === -1) {
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave, 'A' + octave];
+    } else if(extendedList.indexOf('9') >= 0 &&
+        extendedList.indexOf('11') >= 0 &&
+        extendedList.indexOf('13') === -1) {
         //9th + #11th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range,
-        'D' + (range+1), 'F#' + (range+1)];
-      } else if(extendetList.indexOf('9') >= 0 &&
-        extendetList.indexOf('11') === -1 &&
-        extendetList.indexOf('13') >= 0) {
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave,
+        'D' + (octave+1), 'F#' + (octave+1)];
+    } else if(extendedList.indexOf('9') >= 0 &&
+        extendedList.indexOf('11') === -1 &&
+        extendedList.indexOf('13') >= 0) {
         //9th + 13th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range,
-        'D' + (range+1), 'A' + (range+1)];
-      } else if(extendetList.indexOf('9') === -1 &&
-        extendetList.indexOf('11') >= 0 &&
-        extendetList.indexOf('13') >= 0) {
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave,
+        'D' + (octave+1), 'A' + (octave+1)];
+    } else if(extendedList.indexOf('9') === -1 &&
+        extendedList.indexOf('11') >= 0 &&
+        extendedList.indexOf('13') >= 0) {
         //11th + 13th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range,
-        'F#' + (range+1), 'A' + (range+1)];
-      } else if(extendetList.indexOf('9') >= 0 &&
-        extendetList.indexOf('11') >= 0 &&
-        extendetList.indexOf('13') >= 0) {
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave,
+        'F#' + (octave+1), 'A' + (octave+1)];
+    } else if(extendedList.indexOf('9') >= 0 &&
+        extendedList.indexOf('11') >= 0 &&
+        extendedList.indexOf('13') >= 0) {
         //9th + 11th + 13th
-        return ['C' + range , 'E' + range, 'G' + range, 'B' + range,
-        'D' + (range+1), 'F#' + (range+1), 'A' + (range+1)];
+        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave,
+        'D' + (octave+1), 'F#' + (octave+1), 'A' + (octave+1)];
       }
-      return ['C' + range , 'E' + range, 'G' + range, 'B' + range];
+      return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave];
       break;
     }
   }
