@@ -1,17 +1,22 @@
 var Chord = {
   root: "",
-  chordMap: {"C": 1, "C#": 2, "D": 3,"D#": 4, "E": 5, "F": 6,
-  "F#": 7, "G": 8, "G#": 9,"A": 10, "A#": 11, "B": 12},
+  chordMap: {1: "C", 2: "C#", 3: "D",4: "D#", 5: "E", 6: "F",
+  7: "F#", 8: "G", 9: "G#",10: "A", 11: "A#", 12: "B"},
   //コードの種類ごとに一般化されているイメージ
   //Major7th系のコードを返すメソッド
   makeMajorSeventh: function(root, octave, extendedList) {
+    var chord = this;
     switch(root) {
       case 'C':
       if(extendedList.indexOf('9') >= 0 &&
         extendedList.indexOf('11') === -1 &&
         extendedList.indexOf('13') === -1) {
           //9th
-        return ['C' + octave , 'E' + octave, 'G' + octave, 'B' + octave, 'D' + (octave+1)];
+        return [chord.chordMap[1] + octave,
+            chord.chordMap[5] + octave,
+            chord.chordMap[8] + octave,
+            chord.chordMap[12] + octave,
+            chord.chordMap[3] + (octave+1)];
     } else if(extendedList.indexOf('9') === -1 &&
         extendedList.indexOf('11') >= 0 &&
         extendedList.indexOf('13') === -1) {
