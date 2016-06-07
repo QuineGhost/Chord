@@ -9,13 +9,42 @@ $(document).ready(function() {
     var synth = new Tone.PolySynth(5, Tone.MonoSynth).connect(freeverb);
     synth.volume.value = -20;
 
-    //volume-panel background create
-    var opacityValue = 0.1;
-    for(var i = 0; i < 9; i++) {
-        $("#volume-" + i).css("background-color", "#008080");
-        $("#volume-" + i).css("opacity", (opacityValue + 0.1));
-        opacityValue = opacityValue + 0.1;
-    }
+    //get weather
+    var query = "select * from json where url = "
+        + "'http://weather.livedoor.com/forecast/webservice/json/v1?city=130010'"
+
+    var weatherStatus = "";
+    var volumeColor = "#008080";
+
+    $.getJSON("http://query.yahooapis.com/v1/public/yql?q="+query+"&format=json")
+      .done(function(data) {
+        var IdWeather = data.query.results.json;
+        var IdWeatherNow = IdWeather.forecasts[0];
+        var date = new Date();
+        $('.id-title').text(date.toString() + ": Tokyo Current Weather");
+        $('#weather_icon').attr("src", IdWeather.forecasts[0].image.url);
+        weatherStatus = IdWeather.forecasts[0].telop;
+
+        var regex = new RegExp(/曇|のち/g);
+        var test = weatherStatus.match(regex);
+        if(regex.test(weatherStatus)){
+            volumeColor = "#6495ed";
+        }
+
+        //volume-panel background create
+        var opacityValue = 0.1;
+        for(var i = 0; i < 9; i++) {
+            $("#volume-" + i).css("background-color", volumeColor);
+            $("#volume-" + i).css("opacity", (opacityValue + 0.1));
+            opacityValue = opacityValue + 0.1;
+        }
+
+      })
+      .fail(function(data) {
+        console.dir(data);
+      });
+
+
 
     //volume opacity
     var $volumeList = $(".volume-block");
@@ -60,6 +89,8 @@ $(document).ready(function() {
                 break;
         }
 
+
+
         //volume-panel background changes
         var nextId = thisId + 1;
         var preId = thisId - 1;
@@ -85,10 +116,8 @@ $(document).ready(function() {
 
     var $aMode = $('#aMode'),
         $bMode = $('#bMode');
-
     $(window).keydown(function(e) {
       var keyState = e.metaKey && e.ctrlKey && e.keyCode;
-
       //cmd+ctrl+A
       if(keyState === 65) {
         if($aMode[0].checked) {
@@ -113,22 +142,22 @@ $(document).ready(function() {
               case 37:
               console.log($("#left-chord").text().substr(0, 1));
                 synth.triggerAttackRelease(Chord.makeMajorSeventh(
-                        $("#left-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
+                    $("#left-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
               case 38:
               console.log($("#top-chord").text().substr(0, 1));
                 synth.triggerAttackRelease(Chord.makeMajorSeventh(
-                      $("#top-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
+                     $("#top-chord").text().substr(0, 1), 2, ['9', '11', '13']), '4n');
                 break;
               case 39:
               console.log($("#right-chord").text().substr(0, 1));
                 synth.triggerAttackRelease(Chord.makeMajorSeventh(
-                      $("#right-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
+                    $("#right-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
               case 40:
               console.log($("#bottom-chord").text().substr(0, 1));
                 synth.triggerAttackRelease(Chord.makeMajorSeventh(
-                      $("#bottom-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
+                    $("#bottom-chord").text().substr(0, 1), 4, ['9', '11', '13']), '18n');
                 break;
             }
         } catch(e) {
