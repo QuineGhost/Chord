@@ -25,9 +25,12 @@ $(document).ready(function() {
         $('#weather_icon').attr("src", IdWeather.forecasts[0].image.url);
         weatherStatus = IdWeather.forecasts[0].telop;
 
-        var regex = new RegExp(/曇|のち/g);
-        var test = weatherStatus.match(regex);
-        if(regex.test(weatherStatus)){
+        // cloud color
+        if(weatherStatus.search(/曇|くもり/g) != -1){
+            volumeColor = "#a9a9a9";
+        } else if(weatherStatus.search(/晴|はれ/g) != 1) {
+            volumeColor = "#ff7f50";
+        } else if(weatherStatus.search(/雨|あめ/g) != 1) {
             volumeColor = "#6495ed";
         }
 
