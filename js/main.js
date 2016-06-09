@@ -15,6 +15,9 @@ $(document).ready(function() {
 
     var weatherStatus = "";
     var volumeColor = "#008080";
+    var temperature = "";
+    var $volumeList = $(".volume-block");
+    var currentOpacityList = [];
 
     $.getJSON("http://query.yahooapis.com/v1/public/yql?q="+query+"&format=json")
       .done(function(data) {
@@ -36,27 +39,22 @@ $(document).ready(function() {
 
         //volume-panel background create
         var opacityValue = 0.1;
-        for(var i = 0; i < 9; i++) {
+        for(var i = 0; i < 10; i++) {
             $("#volume-" + i).css("background-color", volumeColor);
-            $("#volume-" + i).css("opacity", (opacityValue + 0.1));
+            $("#volume-" + i).css("opacity", (opacityValue));
             opacityValue = opacityValue + 0.1;
         }
 
+        //volume-block opacity list
+        var i = 0
+        for(volume of $volumeList) {
+            currentOpacityList[i] = volume.style.opacity;
+            i++
+        }
       })
       .fail(function(data) {
         console.dir(data);
       });
-
-
-
-    //volume opacity
-    var $volumeList = $(".volume-block");
-    var currentOpacityList = [];
-    var i = 0
-    for(volume of $volumeList) {
-        currentOpacityList[i] = volume.style.opacity;
-        i++
-    }
 
     //volume change
     $volumeList.on('click', function() {
@@ -92,8 +90,6 @@ $(document).ready(function() {
                 break;
         }
 
-
-
         //volume-panel background changes
         var nextId = thisId + 1;
         var preId = thisId - 1;
@@ -108,15 +104,16 @@ $(document).ready(function() {
                 $("#volume-" + i.toString()).css("opacity", "0.0");
             }
             //volume up
-        } else if($(this).css("opacity")){
+        } else if($(this).css("opacity") === "0"){
             for(var i = 0; i < thisId + 1; i++) {
-                if(thisId != 9) {
+                if(thisId != 10) {
                     $("#volume-" + i.toString()).css("opacity", currentOpacityList[i]);
                 }
             }
         }
     });
 
+    //Chord Section
     var $aMode = $('#aMode'),
         $bMode = $('#bMode');
     $(window).keydown(function(e) {
