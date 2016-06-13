@@ -10,14 +10,13 @@ $(document).ready(function() {
     synth.volume.value = -20;
 
     //get weather
-    var query = "select * from json where url = "
-        + "'http://weather.livedoor.com/forecast/webservice/json/v1?city=130010'"
-
     var weatherStatus = "";
     var volumeColor = "#008080";
     var temperature = "";
     var $volumeList = $(".volume-block");
     var currentOpacityList = [];
+    var query = "select * from json where url = "
+        + "'http://weather.livedoor.com/forecast/webservice/json/v1?city=130010'"
 
     $.getJSON("http://query.yahooapis.com/v1/public/yql?q="+query+"&format=json")
       .done(function(data) {
@@ -28,16 +27,10 @@ $(document).ready(function() {
         $('#weather_icon').attr("src", IdWeather.forecasts[0].image.url);
         weatherStatus = IdWeather.forecasts[0].telop;
 
-        // cloud color
-        if(weatherStatus.search(/曇|くもり/g) != -1){
-            volumeColor = "#a9a9a9";
-        } else if(weatherStatus.search(/晴|はれ/g) != 1) {
-            volumeColor = "#ff7f50";
-        } else if(weatherStatus.search(/雨|あめ/g) != 1) {
-            volumeColor = "#6495ed";
-        }
+        // set volume panel color
+        volumeColor = setVolumePanelColor(weatherStatus);
 
-        //volume-panel background create
+        //volume panel create
         var opacityValue = 0.1;
         for(var i = 0; i < 10; i++) {
             $("#volume-" + i).css("background-color", volumeColor);
@@ -56,7 +49,7 @@ $(document).ready(function() {
         console.dir(data);
       });
 
-    //volume change
+    //change volume level
     $volumeList.on('click', function() {
         var thisId = parseInt($(this).attr("id").slice(-1));
 
@@ -165,4 +158,14 @@ $(document).ready(function() {
         }
       }
     });
+
+    function setVolumePanelColor(status) {
+        if(status.search(/曇|くもり/g) != -1){
+            return "#a9a9a9";
+        } else if(status.search(/晴|はれ/g) != 1) {
+            return "#ff7f50";
+        } else if(status.search(/雨|あめ/g) != 1) {
+            return "#6495ed";
+        }
+    };
 });

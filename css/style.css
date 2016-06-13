@@ -1,0 +1,21 @@
+html, body { height: 100%; margin: 0; padding: 0; }
+#map {
+    height: 50%;
+}
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
+.volume-block {
+    display: table-cell;
+}
+.volume-desc {
+    display: table-cell;
+}
+.title{
+    background-color: #becfed;
+    color: #FFF;
+    margin-top: 0px;
+    margin-bottom: 0px
+}
